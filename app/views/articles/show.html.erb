@@ -1,0 +1,58 @@
+<!-- Page Header -->
+<!--<header class="intro-header" style="background-image: url('img/post-bg.jpg')">-->
+<%= article_cover @article.cover.url(:medium) %>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1><%= @article.title %></h1>
+                    <!--<h2 class="subheading">Problems look mighty small from 150 miles up</h2>-->
+                    <% unless @article.user.nil? %>
+					<span class="meta">Posted by <a href="#"><%= @article.user.name %></a> on August 24, 2014</span>
+					<% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" style="text-align:justify;">
+            	
+				<div class="field">
+					tags: <% @article.categories.each do |category| %>
+						<%= link_to category.name, category, style:"color:#{category.color}" %>
+					<% end %>
+				</div>
+
+                <%= Sanitize.fragment(@article.body, Sanitize::Config::RELAXED).html_safe %>
+                <p>Este artículo ha sido visto <%= @article.visits_count %> veces</p>
+            </div>
+        </div>
+
+        <div class="row">
+			<div class="field">
+				<h4>Comentarios</h4>
+				<%= render "comments/form" %>
+				<ul>
+					<% @article.comments.each do |comment| %>
+						<li>
+							<p><%= time_ago_in_words(comment.created_at) %> ago</p>
+							<p><%= image_tag(comment.user.avatar) %></p>
+							<p><%= comment.body %></p>
+							<% if user_signed_in? %>
+							<p><%= link_to "Borrar", [@article, comment], class:"red" %></p>
+							<% end %>
+						</li>
+					<% end %>
+				</ul>
+			</div>
+			<% if user_signed_in? %>
+			<p><%= link_to "Editar", edit_article_path(@article) %></p>
+			<% end %>
+        </div>
+
+    </div>
+</article>

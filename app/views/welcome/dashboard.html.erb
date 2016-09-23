@@ -1,0 +1,37 @@
+<header class="intro-header" style="background-color: #0085A1;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Dashboard for Articles</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <h2>Artículos:</h2>
+
+      <ul>
+      <% @articles.each do |article| %>
+        <li>
+          <h3 class="article_title"><%= link_to article.title, article %> -
+          <small><%= link_to "Eliminar", article, method: :delete %></small>
+          <% if article.may_publish? %>
+            - <small><%= link_to "Publicar", "/articles/#{article.id}/publish", class:"blue", method: :put %></small>
+            <% end %>
+            <% if article.may_unpublish? %>
+                - <small><%= link_to "Despublicar", "/articles/#{article.id}/unpublish", class:"blue", method: :put %></small>
+            <% end %>
+          </h3>
+        </li>
+      <% end %>
+      </ul>
+      <p><%= will_paginate @articles %></p>
+    </div>
+  </div>
+</div>

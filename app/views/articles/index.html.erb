@@ -1,0 +1,47 @@
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header intro-header-cover">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>Beta Human</h1>
+                    <hr class="small">
+                    <span class="subheading">A blog for a unknown person</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+	<div class="row">
+	    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<% @articles.each do |article| %>
+				<!--<li>
+					<h3 class="article_title"><%= link_to article.title, article %></h3>
+					<p>
+						<% article.categories.each do |cat| %>
+						<span style="background-color:<%= cat.color %>; color:white; padding:5px;"><a href="/categories/<%= cat.id %>"><%= cat.name %></a></span>
+						<% end %>
+					</p>
+				</li>-->
+				<div class="post-preview">
+				    <a href="post.html">
+				        <h2 class="post-title">
+				            <%= link_to article.title, article %>
+				        </h2>
+				        <h3 class="post-subtitle">
+				        <%= truncate(article.body, length: 40, escape: false, omission: '... leer más') %>
+				        </h3>
+				    </a>
+				    <p class="post-meta">Posted by <a href="#"><%= article.user.name %></a> on <%= article.created_at.strftime("%B %d, %Y") %></p>
+				</div>
+				<% if article != @articles.last %>
+				    <hr>
+				<% end %>
+			<% end %>
+			<p><%= will_paginate @articles %></p>
+		</div>
+	</div>
+</div>
